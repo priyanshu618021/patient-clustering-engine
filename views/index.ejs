@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Segmentation & Health Clustering Engine</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Patient Segmentation & Health Clustering Engine</h1>
+        <p>Data Mining Minor Project: Unsupervised K-Means, Elbow WCSS & Silhouette Evaluation</p>
+      </div>
+      <span class="pill">Node.js + ml-kmeans</span>
+    </header>
+
+    <div class="controls-panel">
+      <div class="control-group">
+        <label for="kSelect"><strong>Select Clusters (k):</strong></label>
+        <select id="kSelect">
+          <option value="2">k = 2</option>
+          <option value="3" selected>k = 3 (Optimal Elbow)</option>
+          <option value="4">k = 4</option>
+          <option value="5">k = 5</option>
+        </select>
+        <button id="runBtn" class="btn">Run K-Means</button>
+      </div>
+
+      <div class="metrics-bar">
+        <div class="metric-card">
+          <span>Total Patients:</span>
+          <strong id="totalPatientsVal">0</strong>
+        </div>
+        <div class="metric-card">
+          <span>Silhouette Score:</span>
+          <strong id="silhouetteVal">...</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="chart-box">
+        <h3>Patient Clusters (Fasting Blood Sugar vs BMI)</h3>
+        <canvas id="scatterChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>Elbow Method (WCSS vs Cluster Count k)</h3>
+        <canvas id="elbowChart"></canvas>
+      </div>
+    </div>
+
+    <div class="profiles-section">
+      <h3>Discovered Cohort Clinical Profiles</h3>
+      <div id="cohortContainer" class="cohort-cards"></div>
+    </div>
+
+    <div class="add-patient-box">
+      <h3>Add New Outpatient Record (Live Re-Clustering)</h3>
+      <form id="patientForm" class="patient-form">
+        <input type="number" id="age" placeholder="Age (e.g. 52)" required min="1" max="110">
+        <input type="number" step="0.1" id="bmi" placeholder="BMI (e.g. 31.4)" required min="10" max="60">
+        <input type="number" id="sugar" placeholder="Fasting Sugar mg/dL (e.g. 140)" required min="50" max="300">
+        <input type="number" id="bp" placeholder="Systolic BP (e.g. 138)" required min="80" max="220">
+        <input type="number" id="activity" placeholder="Activity Days/Wk (0-7)" required min="0" max="7">
+        <button type="submit" class="btn btn-success">Add & Segment</button>
+      </form>
+    </div>
+
+    <div class="table-section">
+      <h3>Classified Patient Dataset</h3>
+      <div class="table-wrapper">
+        <table id="patientTable">
+          <thead>
+            <tr>
+              <th>Patient ID</th>
+              <th>Age</th>
+              <th>BMI (kg/m²)</th>
+              <th>Fasting Sugar (mg/dL)</th>
+              <th>Systolic BP (mmHg)</th>
+              <th>Activity (Days/Wk)</th>
+              <th>Assigned Cohort</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
